@@ -47,12 +47,16 @@ Create the folder if it doesn't exist. Examples:
 - `Teaching/linux/`
 - `Teaching/electronics/`
 
-Each session produces up to 3 files:
-1. `weekNN-session.md` — Facilitator lesson plan with timing
-2. `weekNN-cheatsheet.md` — Student take-home reference
-3. `weekNN-quiz.md` — Quiz file (QuizForge-compatible)
+Each session produces up to 3 files inside a per-week folder:
+```
+Teaching/<subject>/weekNN/
+  weekNN-session.md    — Facilitator lesson plan with timing
+  weekNN-cheatsheet.md — Student take-home reference
+  weekNN-quiz.md       — Quiz file (QuizForge-compatible)
+```
 
-Use the week number if known, otherwise use a descriptive name.
+Use the week number if known, otherwise use a descriptive folder name (e.g. `python-basics/`).
+Always create the week folder first: `mkdir -p Teaching/<subject>/weekNN/`
 
 ## Session Plan Structure (2-hour template)
 
@@ -81,6 +85,8 @@ Quizzes must be in the QuizForge-compatible Markdown format. Generate them as pa
 
 ### QuizForge Markdown Format
 
+#### Plain Question (no code)
+
 ```markdown
 # Question
 
@@ -92,12 +98,36 @@ Question text goes here?
 - [ ] Wrong answer D
 ```
 
+#### Code Output Question (fenced code block)
+
+For "What is the output of this code?" questions, use a fenced code block between the question text and the options:
+
+```markdown
+# Question
+
+What is the output of this code?
+
+```python
+def greet(name, greeting="Hello"):
+    print(f"{greeting}, {name}!")
+
+greet("Alice")
+```
+
+- [ ] Hello, Alice
+- [x] Hello, Alice!
+- [ ] Alice, Hello!
+- [ ] Error
+```
+
 Rules:
 - Every question starts with exactly `# Question` on its own line
-- A blank line separates the question text from options
+- A blank line separates the question text from what follows (options or code block)
+- A blank line separates the closing ``` from the options
+- For multi-line code, use fenced code blocks with language tag: ````python ... ````
+- For inline code/commands (single tokens), use backticks: `` `grep -i error` ``
 - Options use `- [ ]` for incorrect, `- [x]` for correct
 - Exactly 4 options per question (standard for QuizForge)
-- Code or commands wrap in backticks: `grep -i error`
 - One correct answer per question (mark exactly one `- [x]`)
 
 ### Quiz Composition
